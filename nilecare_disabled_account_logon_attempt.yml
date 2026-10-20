@@ -1,0 +1,34 @@
+title: NileCare - Logon Attempt With A Disabled Account
+id: 3b7e9c52-8f1a-4d6e-b2a4-5c9d0e7f1a63
+status: experimental
+description: |
+    A logon was attempted with an account that is disabled (Event ID 4625, SubStatus 0xC0000072).
+    A disabled account is normally a leaver or an unused account. Someone still trying to use it can
+    mean a former employee or admin keeps credentials, or an attacker is testing old accounts.
+    Linked risk: R-16 (key IT admin leaves, causing access gaps).
+    ISO 27001:2022: A.6.5 Responsibilities after termination or change of employment,
+    A.5.18 Access rights, A.8.16 Monitoring activities.
+references:
+    - https://attack.mitre.org/techniques/T1078/
+author: Hager
+date: 2026-10-20
+tags:
+    - attack.initial-access
+    - attack.persistence
+    - attack.t1078
+    - iso27001.a.6.5
+    - iso27001.a.5.18
+    - iso27001.a.8.16
+    - nilecare.risk.r-16
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4625
+        SubStatus: '0xc0000072'
+    condition: selection
+falsepositives:
+    - A user or a scheduled task still configured with an account that IT disabled by mistake
+    - A mapped drive or saved credential on a device that was not updated after an account change
+level: medium

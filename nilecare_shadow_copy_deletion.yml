@@ -1,0 +1,47 @@
+title: NileCare - Shadow Copy And Recovery Deletion (Ransomware Behavior)
+id: 70d30ca2-8c74-45eb-a57c-76a8c755e149
+status: experimental
+description: |
+    Deletion of volume shadow copies, backup catalogs or boot recovery settings.
+    Typical step before ransomware encrypts files.
+    Linked risk: R-01 (ransomware on EMR and file servers), also R-04 (unrecoverable backups).
+    ISO 27001:2022: A.8.13 Information backup, A.8.7 Protection against malware, A.8.16 Monitoring activities.
+references:
+    - https://attack.mitre.org/techniques/T1490/
+author: Hager
+date: 2026-10-20
+tags:
+    - attack.impact
+    - attack.t1490
+    - iso27001.a.8.13
+    - iso27001.a.8.7
+    - iso27001.a.8.16
+    - nilecare.risk.r-01
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_vssadmin:
+        Image|endswith: '\vssadmin.exe'
+        CommandLine|contains|all:
+            - 'delete'
+            - 'shadows'
+    selection_wmic:
+        Image|endswith: '\wmic.exe'
+        CommandLine|contains|all:
+            - 'shadowcopy'
+            - 'delete'
+    selection_bcdedit:
+        Image|endswith: '\bcdedit.exe'
+        CommandLine|contains|all:
+            - 'recoveryenabled'
+            - 'no'
+    selection_wbadmin:
+        Image|endswith: '\wbadmin.exe'
+        CommandLine|contains|all:
+            - 'delete'
+            - 'catalog'
+    condition: 1 of selection_*
+falsepositives:
+    - Rare administrative cleanup of old shadow copies (verify with the system owner)
+level: high

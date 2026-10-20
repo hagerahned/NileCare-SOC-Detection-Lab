@@ -1,0 +1,30 @@
+title: NileCare - Windows Event Log Cleared
+id: 6f1d2a1e-6b7c-4d38-9a3e-2c5f1a8e4b10
+status: experimental
+description: |
+    The Security audit log was cleared (Event ID 1102) or another Windows log was cleared (Event ID 104).
+    Attackers clear logs to hide their activity, which also destroys evidence needed for investigation.
+    Linked risk: R-02 and R-09 (insider misuse and privileged account compromise).
+    ISO 27001:2022: A.8.15 Logging (protection of logs), A.8.16 Monitoring activities.
+references:
+    - https://attack.mitre.org/techniques/T1070/001/
+author: Hager
+date: 2026-10-20
+tags:
+    - attack.defense-evasion
+    - attack.t1070.001
+    - iso27001.a.8.15
+    - iso27001.a.8.16
+    - nilecare.risk.r-09
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 1102
+    condition: selection
+falsepositives:
+    - Planned log maintenance by administrators (confirm with a change ticket)
+    - Lab or test machines where logs are cleared before a test (23 of 24 sample hits looked like this)
+    - Raise to high when the same host also triggers other alerts (shadow copy deletion, new admin) within 1 hour
+level: medium

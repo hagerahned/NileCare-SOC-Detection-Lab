@@ -1,0 +1,36 @@
+title: NileCare - Access To Patient Records File Share
+id: e4f21cdc-3cc0-41ad-99af-4ccbce69dbe0
+status: experimental
+description: |
+    Network share object access (Event ID 5145) on the PatientRecords share by a user account.
+    Needs "Audit Detailed File Share" (success) enabled on the file server.
+    Review hits outside working hours or from non-clinical accounts in the SIEM
+    (Sigma cannot express time-of-day, so add that filter in the target platform).
+    Linked risk: R-02 (unauthorized access to patient records).
+    ISO 27001:2022: A.5.15 Access control, A.8.3 Information access restriction, A.8.15 Logging.
+    Assumption: the share name PatientRecords is a lab convention for NileCare.
+references:
+    - https://attack.mitre.org/techniques/T1039/
+author: Hager
+date: 2026-10-20
+tags:
+    - attack.collection
+    - attack.t1039
+    - iso27001.a.5.15
+    - iso27001.a.8.3
+    - iso27001.a.8.15
+    - nilecare.risk.r-02
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 5145
+        ShareName|endswith: '\PatientRecords'
+    filter_machine_accounts:
+        SubjectUserName|endswith: '$'
+    condition: selection and not filter_machine_accounts
+falsepositives:
+    - Legitimate clinical and records staff during working hours
+    - Backup service accounts (add them as an exclusion after review)
+level: medium

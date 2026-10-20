@@ -1,0 +1,35 @@
+title: NileCare - User Added To Privileged Group
+id: cf797080-292c-4193-9bdf-a1e4e40de9a5
+status: experimental
+description: |
+    A member was added to the local Administrators group (Event ID 4732) or to the
+    Domain Admins group (Event IDs 4728, 4756). Possible privilege escalation or persistence.
+    Linked risk: R-09 (privileged account compromise).
+    ISO 27001:2022: A.8.2 Privileged access rights, A.5.18 Access rights, A.8.16 Monitoring activities.
+references:
+    - https://attack.mitre.org/techniques/T1098/
+author: Hager
+date: 2026-10-20
+tags:
+    - attack.persistence
+    - attack.privilege-escalation
+    - attack.t1098
+    - iso27001.a.8.2
+    - iso27001.a.5.18
+    - nilecare.risk.r-09
+logsource:
+    product: windows
+    service: security
+detection:
+    selection_local_admins:
+        EventID: 4732
+        TargetUserName: 'Administrators'
+    selection_domain_admins:
+        EventID:
+            - 4728
+            - 4756
+        TargetUserName: 'Domain Admins'
+    condition: 1 of selection_*
+falsepositives:
+    - Approved admin onboarding (match against the change request or ticket)
+level: high
