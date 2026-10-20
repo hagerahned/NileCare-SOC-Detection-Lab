@@ -1,6 +1,6 @@
 # NileCare SOC Detection Lab - Sigma Rules
 
-Detection rules for the fictional company **NileCare**. Risk IDs (R-xx) and Annex A controls refer to the companion repository [NileCare-ISO27001-GRC-Project](https://github.com/YOUR-USERNAME/NileCare-ISO27001-GRC-Project) (risk register, gap assessment, policies, network design). Each rule is written in [Sigma](https://github.com/SigmaHQ/sigma) format and linked to a risk in the risk register, an ATT&CK technique and ISO 27001:2022 Annex A controls. They help close gaps **A.8.15 Logging** and **A.8.16 Monitoring activities** from the gap assessment.
+Detection rules for the fictional company **NileCare**. Risk IDs (R-xx) and Annex A controls refer to the companion repository [NileCare-ISO27001-GRC-Project](https://github.com/hagerahned/NileCare-ISO27001-GRC-Project.git) (risk register, gap assessment, policies, network design). Each rule is written in [Sigma](https://github.com/SigmaHQ/sigma) format and linked to a risk in the risk register, an ATT&CK technique and ISO 27001:2022 Annex A controls. They help close gaps **A.8.15 Logging** and **A.8.16 Monitoring activities** from the gap assessment.
 
 **Status:** syntax-validated with pySigma and tested with Chainsaw 2.17.1 on the public EVTX-ATTACK-SAMPLES logs (278 files). Results are below, including what could not be tested.
 
